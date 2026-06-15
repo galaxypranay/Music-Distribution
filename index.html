@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoundLift Distribution Portal</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient" aria-hidden="true"></div>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#dashboard" aria-label="SoundLift dashboard">
+          <span class="brand-mark">
+            <i data-lucide="audio-lines"></i>
+          </span>
+          <span>
+            <strong>SoundLift</strong>
+            <small>Distribution</small>
+          </span>
+        </a>
+
+        <div class="profile-chip">
+          <span class="status-dot"></span>
+          <span>Artist Portal</span>
+        </div>
+      </header>
+
+      <nav class="mobile-nav" aria-label="Main navigation">
+        <a class="nav-link" href="#dashboard" data-route="dashboard">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Home</span>
+        </a>
+        <a class="nav-link" href="#new-release" data-route="new-release">
+          <i data-lucide="upload-cloud"></i>
+          <span>Release</span>
+        </a>
+        <a class="nav-link" href="#uploads" data-route="uploads">
+          <i data-lucide="list-music"></i>
+          <span>Uploads</span>
+        </a>
+      </nav>
+
+      <main id="app" class="page-transition" tabindex="-1"></main>
+    </div>
+
+    <template id="dashboard-template">
+      <section class="hero-panel">
+        <div class="hero-copy">
+          <span class="eyebrow">Premium distribution workspace</span>
+          <h1>Release-ready music submissions, organized in one clean flow.</h1>
+          <p>Track uploads, prepare metadata, and submit polished releases for distribution.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#new-release">
+              <i data-lucide="plus"></i>
+              New Release
+            </a>
+            <a class="button ghost" href="#uploads">
+              <i data-lucide="disc-3"></i>
+              My Uploads
+            </a>
+          </div>
+        </div>
+        <div class="now-card">
+          <img src="assets/cover-neon-wave.png" alt="Neon abstract album cover" />
+          <div>
+            <span>Latest draft</span>
+            <strong>Midnight Signals</strong>
+            <small>Electronic Pop</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-grid" aria-label="Release statistics">
+        <article class="stat-card">
+          <i data-lucide="music-4"></i>
+          <span>Total Uploads</span>
+          <strong>18</strong>
+        </article>
+        <article class="stat-card">
+          <i data-lucide="clock-3"></i>
+          <span>Pending Releases</span>
+          <strong>06</strong>
+        </article>
+        <article class="stat-card">
+          <i data-lucide="badge-check"></i>
+          <span>Completed Releases</span>
+          <strong>12</strong>
+        </article>
+      </section>
+
+      <section class="section-block">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Recent uploads</span>
+            <h2>Submission activity</h2>
+          </div>
+          <a class="icon-link" href="#uploads" aria-label="View all uploads">
+            <i data-lucide="arrow-up-right"></i>
+          </a>
+        </div>
+        <div class="release-list" id="recent-list"></div>
+      </section>
+    </template>
+
+    <template id="new-release-template">
+      <section class="form-layout">
+        <div class="form-intro">
+          <span class="eyebrow">New release</span>
+          <h1>Submit a song for distribution.</h1>
+          <p>Fill in release metadata, upload the final audio file, add cover art, and send it for review.</p>
+        </div>
+
+        <form class="release-form" id="release-form">
+          <fieldset class="form-section">
+            <legend>Song Information</legend>
+            <label>
+              <span>Song Title</span>
+              <input name="title" type="text" placeholder="Midnight Signals" required />
+            </label>
+            <label>
+              <span>Artist Name</span>
+              <input name="artist" type="text" placeholder="Aarav Sky" required />
+            </label>
+            <label>
+              <span>Featuring Artist</span>
+              <input name="featuring" type="text" placeholder="Optional" />
+            </label>
+            <div class="field-grid">
+              <label>
+                <span>Genre</span>
+                <select name="genre" required>
+                  <option value="">Select genre</option>
+                  <option>Pop</option>
+                  <option>Hip-Hop</option>
+                  <option>Electronic</option>
+                  <option>Indie</option>
+                  <option>Punjabi</option>
+                  <option>Bollywood</option>
+                </select>
+              </label>
+              <label>
+                <span>Language</span>
+                <select name="language" required>
+                  <option value="">Select language</option>
+                  <option>Hindi</option>
+                  <option>English</option>
+                  <option>Punjabi</option>
+                  <option>Tamil</option>
+                  <option>Telugu</option>
+                  <option>Instrumental</option>
+                </select>
+              </label>
+            </div>
+            <label>
+              <span>Release Date</span>
+              <input name="date" type="date" required />
+            </label>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Description</legend>
+            <label>
+              <span>Release Notes</span>
+              <textarea name="description" rows="6" placeholder="Mood, credits, promotional notes, or distributor instructions."></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Upload Audio</legend>
+            <div class="drop-zone" data-drop="audio">
+              <input id="audio-upload" name="audio" type="file" accept=".mp3,.wav,audio/mpeg,audio/wav" hidden />
+              <i data-lucide="file-audio"></i>
+              <strong>Drop audio here</strong>
+              <span>MP3 or WAV accepted</span>
+              <button class="button ghost small" type="button" data-browse="audio-upload">Choose File</button>
+            </div>
+            <div class="file-meta" id="audio-meta">No audio selected</div>
+          </fieldset>
+
+          <fieldset class="form-section">
+            <legend>Upload Cover Art</legend>
+            <div class="drop-zone cover-drop" data-drop="cover">
+              <input id="cover-upload" name="cover" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+              <div class="cover-preview" id="cover-preview">
+                <i data-lucide="image-plus"></i>
+              </div>
+              <strong>Drop cover art here</strong>
+              <span>Square JPG, PNG, or WEBP</span>
+              <button class="button ghost small" type="button" data-browse="cover-upload">Choose Image</button>
+            </div>
+            <div class="file-meta" id="cover-meta">No cover selected</div>
+          </fieldset>
+
+          <button class="button primary submit-button" type="submit">
+            <span class="submit-idle">
+              <i data-lucide="send"></i>
+              Submit For Distribution
+            </span>
+            <span class="submit-loading">
+              <span class="spinner"></span>
+              Uploading
+            </span>
+            <span class="submit-success">
+              <i data-lucide="check"></i>
+              Submitted
+            </span>
+          </button>
+        </form>
+      </section>
+    </template>
+
+    <template id="uploads-template">
+      <section class="section-block uploads-page">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Library</span>
+            <h1>My Uploads</h1>
+          </div>
+          <a class="button primary" href="#new-release">
+            <i data-lucide="plus"></i>
+            New Release
+          </a>
+        </div>
+        <div class="table-shell">
+          <div class="upload-table" id="uploads-table"></div>
+        </div>
+      </section>
+    </template>
+
+    <template id="details-template">
+      <section class="details-page" id="details-page"></section>
+    </template>
+  </body>
+</html>
